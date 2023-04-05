@@ -802,7 +802,7 @@ const equalAttrs = (pattrs, yattrs) => {
 const equalMarks = (pmarks, ymarks) => {
   if (pmarks.length !== ymarks.length) return false
   for (let i = 0; i < pmarks.length; i++) {
-    if (pmarks[i].type !== ymarks[i].type || typeof(pmarks[i].attrs) !== typeof(ymarks[i].attrs) || (pmarks[i].attrs && ymarks[i].attrs && !equalAttrs(pmarks[i].attrs, ymarks[i].attrs))) return false
+    if (pmarks[i].type !== ymarks[i].type || typeof (pmarks[i].attrs) !== typeof (ymarks[i].attrs) || (pmarks[i].attrs && ymarks[i].attrs && !equalAttrs(pmarks[i].attrs, ymarks[i].attrs))) return false
   }
   return true
 }

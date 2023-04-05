@@ -1,0 +1,47 @@
+name: Push package to Azure Artifacts
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  NODE_VERSION: '10.x'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      # Run build
+      - name: npm install, build package
+        run: |
+          npm install
+          npm run dist
+
+  az-artifacts-build-and-deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the repo
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
+          scope: '@seraphin'
+
+      # Publish
+      - run: npm ci
+      - run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
