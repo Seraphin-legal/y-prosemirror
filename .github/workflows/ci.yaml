@@ -3,10 +3,10 @@ name: Push package to Azure Artifacts
 on:
   push:
     branches:
-      - main
+      - master
 
 env:
-  NODE_VERSION: '10.x'
+  NODE_VERSION: 16
 
 jobs:
   build:
@@ -37,8 +37,23 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ env.NODE_VERSION }}
-          registry-url: ${{ env.AZURE_ARTIFACTS_FEED_URL }}
-          scope: '@seraphin'
+
+      # set auth conf in .npmrc
+      - run: cat .npmrc | sed 's/{AZURE_DEVOPS_TOKEN}/${{ secrets.AZURE_DEVOPS_TOKEN }}/' | sed 's/{username}/${{ vars.AZURE_USERNAME }}/' | sed 's/{email}/${{ vars.AZURE_EMAIL }}/' > .npmrc
+
+      - name: Get version of the project
+        id: project-version
+        uses: 'euberdeveloper/ga-project-version@main'
+
+      - name: Clean and set package version
+        run: |
+          npm ci
+          git add .
+          git config --global user.email "my-user@me.com"
+          git config --global user.name "my-user"
+          git commit -m 'commit to change version'
+          npm version ${{ steps.project-version.outputs.version }}-v-${{ github.run_number  }}
+
 
       # Publish
       - run: npm ci
