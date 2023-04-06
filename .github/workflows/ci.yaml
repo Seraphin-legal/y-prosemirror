@@ -11,6 +11,7 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    environment: AZURE_DEVOPS
     steps:
       # Checkout the repo
       - uses: actions/checkout@v2
@@ -28,6 +29,7 @@ jobs:
 
   az-artifacts-build-and-deploy:
     needs: build
+    environment: AZURE_DEVOPS
     runs-on: ubuntu-latest
     steps:
       # Checkout the repo
@@ -56,7 +58,6 @@ jobs:
 
 
       # Publish
-      - run: npm ci
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
