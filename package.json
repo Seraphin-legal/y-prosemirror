@@ -1,6 +1,6 @@
 {
-  "name": "@seraphin/y-prosemirror",
-  "version": "1.2.1",
+  "name": "y-prosemirror",
+  "version": "1.2.1500",
   "description": "Prosemirror bindings for Yjs",
   "main": "./dist/y-prosemirror.cjs",
   "module": "./src/y-prosemirror.js",

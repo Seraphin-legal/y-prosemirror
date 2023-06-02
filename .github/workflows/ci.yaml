@@ -54,7 +54,7 @@ jobs:
           git config --global user.email "my-user@me.com"
           git config --global user.name "my-user"
           git commit -m 'commit to change version'
-          npm version ${{ steps.project-version.outputs.version }}-v-${{ github.run_number  }}
+          npm version ${{ steps.project-version.outputs.version }}
 
 
       # Publish
