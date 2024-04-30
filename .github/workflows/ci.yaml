@@ -50,14 +50,11 @@ jobs:
       - name: Clean and set package version
         run: |
           npm ci
-          git add .
-          git config --global user.email "my-user@me.com"
-          git config --global user.name "my-user"
-          git commit -m 'commit to change version'
+          echo "new version ${{ steps.project-version.outputs.version }}"
           npm version ${{ steps.project-version.outputs.version }}
 
 
       # Publish
-      - run: npm publish
+      - run: npm publish --no-git-changes
         env:
           NODE_AUTH_TOKEN: ${{ secrets.AZURE_DEVOPS_TOKEN }}
