@@ -41,7 +41,7 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
 
       # set auth conf in .npmrc
-      - run: cat .npmrc | sed 's/{AZURE_DEVOPS_TOKEN}/${{ secrets.AZURE_DEVOPS_TOKEN }}/' | sed 's/{username}/${{ vars.AZURE_USERNAME }}/' | sed 's/{email}/${{ vars.AZURE_EMAIL }}/' > .npmrc
+      - run: cat .npmrc | sed 's/@seraphin:registry/registry/' | sed 's/{AZURE_DEVOPS_TOKEN}/${{ secrets.AZURE_DEVOPS_TOKEN }}/' | sed 's/{username}/${{ vars.AZURE_USERNAME }}/' | sed 's/{email}/${{ vars.AZURE_EMAIL }}/' > .npmrc
 
       - name: Get version of the project
         id: project-version
