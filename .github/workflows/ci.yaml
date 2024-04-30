@@ -50,8 +50,7 @@ jobs:
       - name: Clean and set package version
         run: |
           npm ci
-          echo "new version ${{ steps.project-version.outputs.version }}"
-          npm version ${{ steps.project-version.outputs.version }}
+        # npm version ${{ steps.project-version.outputs.version }}-v-${{ github.run_number  }}
 
 
       # Publish
